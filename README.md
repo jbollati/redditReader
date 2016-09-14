@@ -1,4 +1,4 @@
-# LayoutAssignment | Android Reddit Reader
+# Android Reddit Reader
 
 
 ## Contexto
