@@ -51,7 +51,7 @@ public class NewsActivity extends AppCompatActivity {
                 NewsActivityFragment newsfragment = (NewsActivityFragment)
                         getSupportFragmentManager().findFragmentById(R.id.news_activity_fragment_id);
                 TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-                textView.setText("User " + email + " logged in");
+                textView.setText(String.format(getResources().getString(R.string.user_logged_in), email));
             }
         }
     }

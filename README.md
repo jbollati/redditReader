@@ -8,6 +8,8 @@ El presente curso ha sido diseñado por [Diego Mercado](https://github.com/merca
 
 ## Step 1 - Activities Assignment
 
+### Objetivos
+
 * Conocer la comunicación entre Actividades y su ciclo de vida
 
 ### Enunciado
@@ -15,6 +17,8 @@ El presente curso ha sido diseñado por [Diego Mercado](https://github.com/merca
 * Una vez finalizado, debera mostrar el nombre del usuario logueado en pantalla
 
 ## Step 2 - Layout Assignment
+
+### Objetivos
 
 * Conocer los principios básicos de Layouts, View y ViewGroups en Android
 * Modificar y agregar recursos gráficos y de texto a la aplicación 
