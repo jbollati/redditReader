@@ -16,7 +16,10 @@
     <string name="permission_rationale">"Se necesitan permisos de contactos para proveer auto
         completado de email."
     </string>
-
+    <string name="subreddit">r/todayilearned</string>
+    <string name="last_update_post">Hace 4h</string>
+    <string name="post_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec</string>
+    <string name="no_comments_post">2112 comentarios</string>
 
     <string name="title_activity_news">"Lector de Reddit"
     </string>

@@ -45,8 +45,6 @@ public class NewsActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 String email = data.getStringExtra("email");
-                NewsActivityFragment newsfragment = (NewsActivityFragment)
-                        getSupportFragmentManager().findFragmentById(R.id.news_activity_fragment_id);
                 TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
                 textView.setText(String.format(getResources().getString(R.string.user_logged_in), email));
             }

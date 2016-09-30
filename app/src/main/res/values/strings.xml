@@ -16,6 +16,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="subreddit">r/todayilearned</string>
+    <string name="last_update_post">4h ago</string>
+    <string name="post_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec</string>
+    <string name="no_comments_post">2112 comments</string>
 
 
     <string name="title_activity_news">"Reddit Reader"
