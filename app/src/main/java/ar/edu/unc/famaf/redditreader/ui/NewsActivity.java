@@ -1,4 +1,4 @@
-package famaf.unc.edu.ar.redditreader;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import ar.edu.unc.famaf.redditreader.R;
+
 
 public class NewsActivity extends AppCompatActivity {
 
