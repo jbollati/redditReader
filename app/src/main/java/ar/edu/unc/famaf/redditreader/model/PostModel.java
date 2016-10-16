@@ -8,7 +8,7 @@ public class PostModel {
     private String mPost_title;
     private int mPost_no_comments;
     private Date mPost_create;
-    private int mPost_thumbnail_id;
+    private String mPost_thumbnail_url;
     private String mPost_subreddit;
 
     public String getPost_autor() {
@@ -31,8 +31,8 @@ public class PostModel {
         return mPost_no_comments;
     }
 
-    public void setPost_no_commnets(int post_no_commnets) {
-        mPost_no_comments = post_no_commnets;
+    public void setPost_no_comments(int post_no_comments) {
+        mPost_no_comments = post_no_comments;
     }
 
     public Date getPost_create() {
@@ -43,12 +43,12 @@ public class PostModel {
         mPost_create = post_create;
     }
 
-    public int getPost_thumbnail_id() {
-        return mPost_thumbnail_id;
+    public String getPost_thumbnail() {
+        return mPost_thumbnail_url;
     }
 
-    public void setPost_thumbnail(int post_thumbnail_id) {
-        mPost_thumbnail_id = post_thumbnail_id;
+    public void setPost_thumbnail(String post_thumbnail_url) {
+        mPost_thumbnail_url = post_thumbnail_url;
     }
 
     public String getPost_subreddit() {
