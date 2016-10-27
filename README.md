@@ -1,8 +1,11 @@
+
 # Android Reddit Reader
+
 
 ## Contexto
 
 El presente curso ha sido diseñado por [Diego Mercado](https://github.com/mercadodiego) para la materia optativa _"Programación en Android: Introducción"_ de la Facultad de Astronomía, Matemática y Física (FaMAF) perteneciente a la Universidad Nacional de Córdoba, Argentina. 
+
 
 
 ## Step 1 - Activities Assignment
@@ -31,7 +34,6 @@ El presente curso ha sido diseñado por [Diego Mercado](https://github.com/merca
 5. En la vista principal debe mostrarse una vista igual a ./images/screenshot1.jpg ![Alt text](/images/screenshot1.jpg?raw=true "captura de imagen") 
 
 ## Step 3 - Adapters Assignment
-
 
 ### Objetivos
 
