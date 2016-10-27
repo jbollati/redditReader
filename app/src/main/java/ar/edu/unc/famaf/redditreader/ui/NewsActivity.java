@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.R;
