@@ -63,7 +63,7 @@ El presente curso ha sido diseñado por [Diego Mercado](https://github.com/merca
 1. La clase `ar.edu.unc.famaf.redditreader.ui.PostAdapter` debe implementar una AsyncTask que dada una URL previamente definida en la clase  `ar.edu.unc.famaf.redditreader.model.PostModel`, permita descargar dicha imagen y que sea parte de la ImageView representativa del *preview/thumbnail*
 2. Debe emplearse un `android.widget.ProgressBar` animado mientras la imagen está siendo descargada 
 
-## Step 4 - WebServices Asiggnment
+## Step 5 - WebServices Asiggnment
 
 ### Contexto
 
