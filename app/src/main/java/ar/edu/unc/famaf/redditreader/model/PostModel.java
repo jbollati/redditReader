@@ -4,19 +4,19 @@ package ar.edu.unc.famaf.redditreader.model;
 import java.util.Date;
 
 public class PostModel {
-    private String mPost_autor;
+    private String mPost_author;
     private String mPost_title;
     private int mPost_no_comments;
     private Date mPost_create;
     private String mPost_thumbnail_url;
     private String mPost_subreddit;
 
-    public String getPost_autor() {
-        return mPost_autor;
+    public String getPost_author() {
+        return mPost_author;
     }
 
-    public void setPost_autor(String post_autor) {
-        mPost_autor = post_autor;
+    public void setPost_author(String post_autor) {
+        mPost_author = post_autor;
     }
 
     public String getPost_title() {

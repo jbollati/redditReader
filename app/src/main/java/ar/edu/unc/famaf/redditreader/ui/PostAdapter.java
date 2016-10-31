@@ -26,8 +26,8 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> postLst = null;
-    final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    final int cacheSize = maxMemory / 8;
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private final int cacheSize = maxMemory / 8;
     private LruCache<URL, Bitmap> bitmapLruCache = new LruCache<>(cacheSize);
 
     private class ViewHolder {
@@ -123,7 +123,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         private ProgressBar progressBar;
         private LruCache<URL, Bitmap> bitmapLruCache;
 
-        public imageDownloader(LruCache<URL, Bitmap> bitmapCache, ImageView imageView, ProgressBar pb) {
+        imageDownloader(LruCache<URL, Bitmap> bitmapCache, ImageView imageView, ProgressBar pb) {
             super();
             this.bitmapLruCache = bitmapCache;
             this.imageView = imageView;
