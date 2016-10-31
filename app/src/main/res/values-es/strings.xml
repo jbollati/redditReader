@@ -15,6 +15,8 @@
         completado de email."
     </string>
     <string name="no_comments_post">%1$d comentarios</string>
+    <string name="internet_required">Usetd no posee conexión a internet</string>
+
 
     <string name="title_activity_news">"Lector de Reddit"
     </string>

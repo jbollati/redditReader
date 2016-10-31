@@ -17,7 +17,7 @@
         completions."
     </string>
     <string name="no_comments_post">%1$d comments</string>
-
+    <string name="internet_required">You are offline</string>
 
     <string name="title_activity_news">"Reddit Reader"
     </string>
