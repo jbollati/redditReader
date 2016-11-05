@@ -91,24 +91,24 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         PostModel pm = postLst.get(position);
 
-        viewHolder.postSubreddit.setText(pm.getPost_subreddit());
+        viewHolder.postSubreddit.setText(pm.getSubreddit());
 
         CharSequence relativeTime = DateUtils.getRelativeDateTimeString(getContext(),
-                pm.getPost_create().getTime(), DateUtils.SECOND_IN_MILLIS,
+                pm.getCreateTime().getTime(), DateUtils.SECOND_IN_MILLIS,
                 DateUtils.WEEK_IN_MILLIS,0);
 
         viewHolder.postDate.setText(relativeTime);
 
-        viewHolder.postTitle.setText(pm.getPost_title());
+        viewHolder.postTitle.setText(pm.getTitle());
 
         viewHolder.postNoComments.setText(String.format(
                 getContext().getResources().getString(R.string.no_comments_post),
-                pm.getPost_no_comments()));
+                pm.getNoComments()));
 
 
         viewHolder.postThumbnail.setImageDrawable(null);
         imageDownloader imDw = new imageDownloader(this.bitmapLruCache, viewHolder.postThumbnail, viewHolder.postProgressBar);
-        imDw.execute(pm.getPost_thumbnail());
+        imDw.execute(pm.getThumbnailUrl());
 
         return convertView;
     }

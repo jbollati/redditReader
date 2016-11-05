@@ -139,12 +139,12 @@ public class Parser {
             }
         }
         reader.endObject();
-        post.setPost_subreddit(subreddit);
-        post.setPost_title(title);
-        post.setPost_author(author);
-        post.setPost_create(create);
-        post.setPost_no_comments(num_comments);
-        post.setPost_thumbnail(thumbnail);
+        post.setSubreddit(subreddit);
+        post.setTitle(title);
+        post.setAuthor(author);
+        post.setCreateTime(create);
+        post.setNoComments(num_comments);
+        post.setThumbnailUrl(thumbnail);
 
         return post;
     }

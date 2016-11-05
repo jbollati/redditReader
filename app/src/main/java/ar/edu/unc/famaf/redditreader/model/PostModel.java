@@ -1,61 +1,73 @@
 package ar.edu.unc.famaf.redditreader.model;
 
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 public class PostModel {
-    private String mPost_author;
-    private String mPost_title;
-    private int mPost_no_comments;
-    private Date mPost_create;
-    private String mPost_thumbnail_url;
-    private String mPost_subreddit;
+    private String mAuthor;
+    private String mTitle;
+    private int mNoComments;
+    private Date mCreateTime;
+    private String mThumbnailUrl;
+    private Bitmap mThumbnailBitmap;
+    private String mSubreddit;
 
-    public String getPost_author() {
-        return mPost_author;
+    public String getAuthor() {
+        return mAuthor;
     }
 
-    public void setPost_author(String post_autor) {
-        mPost_author = post_autor;
+    public void setAuthor(String author) {
+        this.mAuthor = author;
     }
 
-    public String getPost_title() {
-        return mPost_title;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setPost_title(String post_title) {
-        mPost_title = post_title;
+    public void setTitle(String title) {
+        this.mTitle = title;
     }
 
-    public int getPost_no_comments() {
-        return mPost_no_comments;
+    public int getNoComments() {
+        return mNoComments;
     }
 
-    public void setPost_no_comments(int post_no_comments) {
-        mPost_no_comments = post_no_comments;
+    public void setNoComments(int noComments) {
+        this.mNoComments = noComments;
     }
 
-    public Date getPost_create() {
-        return mPost_create;
+    public Date getCreateTime() {
+        return mCreateTime;
     }
 
-    public void setPost_create(Date post_create) {
-        mPost_create = post_create;
+    public void setCreateTime(Date createTime) {
+        this.mCreateTime = createTime;
     }
 
-    public String getPost_thumbnail() {
-        return mPost_thumbnail_url;
+    public String getThumbnailUrl() {
+        return mThumbnailUrl;
     }
 
-    public void setPost_thumbnail(String post_thumbnail_url) {
-        mPost_thumbnail_url = post_thumbnail_url;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.mThumbnailUrl = thumbnailUrl;
     }
 
-    public String getPost_subreddit() {
-        return mPost_subreddit;
+    public Bitmap getThumbnailBitmap() {
+        return mThumbnailBitmap;
     }
 
-    public void setPost_subreddit(String post_subreddit) {
-        mPost_subreddit = post_subreddit;
+    public void setThumbnailBitmap(Bitmap thumbnailBitmap) {
+        this.mThumbnailBitmap = thumbnailBitmap;
+    }
+
+    public String getSubreddit() {
+        return mSubreddit;
+    }
+
+    public void setSubreddit(String subreddit) {
+        this.mSubreddit = subreddit;
     }
 }
+
