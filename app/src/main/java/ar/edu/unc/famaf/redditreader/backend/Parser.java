@@ -104,7 +104,7 @@ public class Parser {
         String author = null;
         String title = null;
         int num_comments = 0;
-        Date create = null;
+        long create = 0;
         String thumbnail = null;
         String subreddit = null;
 
@@ -126,7 +126,7 @@ public class Parser {
                     num_comments = reader.nextInt();
                     break;
                 case "created_utc":
-                    create = new Date((reader.nextLong() * 1000));
+                    create = reader.nextLong() * 1000;
                     break;
                 case "thumbnail":
                     thumbnail = reader.nextString();

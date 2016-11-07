@@ -3,13 +3,12 @@ package ar.edu.unc.famaf.redditreader.model;
 
 import android.graphics.Bitmap;
 
-import java.util.Date;
 
 public class PostModel {
     private String mAuthor;
     private String mTitle;
     private int mNoComments;
-    private Date mCreateTime;
+    private long mCreateTime;
     private String mThumbnailUrl;
     private Bitmap mThumbnailBitmap;
     private String mSubreddit;
@@ -38,11 +37,11 @@ public class PostModel {
         this.mNoComments = noComments;
     }
 
-    public Date getCreateTime() {
+    public long getCreateTime() {
         return mCreateTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(long createTime) {
         this.mCreateTime = createTime;
     }
 

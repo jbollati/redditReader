@@ -93,8 +93,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         viewHolder.postSubreddit.setText(pm.getSubreddit());
 
-        CharSequence relativeTime = DateUtils.getRelativeDateTimeString(getContext(),
-                pm.getCreateTime().getTime(), DateUtils.SECOND_IN_MILLIS,
+        CharSequence relativeTime = DateUtils.getRelativeDateTimeString(getContext(), ,DateUtils.SECOND_IN_MILLIS,
                 DateUtils.WEEK_IN_MILLIS,0);
 
         viewHolder.postDate.setText(relativeTime);
