@@ -1,10 +1,7 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,11 +27,7 @@ public class NewsActivity extends AppCompatActivity implements TaskListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (isOnline()) {
-            Backend.getTopPosts(this);
-        } else {
-            new AlertDialog.Builder(this).setMessage(R.string.internet_required).show();
-        }
+        Backend.getTopPosts(this, this);
     }
 
     @Override
@@ -71,9 +64,5 @@ public class NewsActivity extends AppCompatActivity implements TaskListener {
             Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
         }
     }
-    public boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(NewsActivity.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+
 }

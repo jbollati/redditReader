@@ -1,5 +1,8 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import java.io.IOException;
@@ -11,31 +14,51 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
 
 
 public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
-    private TaskListener listener;
+    private TaskListener mListener;
+    private Context mCtx;
 
-    public GetTopPostsTask(TaskListener listener) {
+    public GetTopPostsTask(TaskListener listener, Context context) {
         super();
-        this.listener = listener;
+        this.mListener = listener;
+        this.mCtx = context;
     }
 
     @Override
     protected Listing doInBackground(String...urls) {
-        Listing list = null;
-        HttpURLConnection conn;
-        try {
-            conn = (HttpURLConnection) new URL(urls[0]).openConnection();
-            conn.setRequestMethod("GET");
-            InputStream jsonStream = conn.getInputStream();
-            list = new Parser().readJsonStream(jsonStream);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Listing listing = null;
+
+        RedditDBHelper DBHelper = new RedditDBHelper(mCtx, 1);
+
+        if (isOnline()) {
+            HttpURLConnection conn;
+            try {
+                conn = (HttpURLConnection) new URL(urls[0]).openConnection();
+                conn.setRequestMethod("GET");
+                InputStream jsonStream = conn.getInputStream();
+                listing = new Parser().readJsonStream(jsonStream);
+                DBHelper.savePosts(listing.getChildren());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            listing = new Listing();
+            listing.setChildren(DBHelper.getPosts());
         }
-        return list;
+
+        DBHelper.close();
+        return listing;
     }
 
     @Override
     protected void onPostExecute(Listing listing) {
         super.onPostExecute(listing);
-        listener.nextPosts(listing.getChildren());
+        mListener.nextPosts(listing.getChildren());
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)
+                mCtx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

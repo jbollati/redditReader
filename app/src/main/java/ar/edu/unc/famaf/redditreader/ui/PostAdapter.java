@@ -22,13 +22,14 @@ import java.net.URL;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> postLst = null;
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
-    private LruCache<URL, Bitmap> bitmapLruCache = new LruCache<>(cacheSize);
+    private LruCache<String, Bitmap> bitmapLruCache = new LruCache<>(cacheSize);
 
     private class ViewHolder {
         final ImageView postThumbnail;
@@ -93,8 +94,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         viewHolder.postSubreddit.setText(pm.getSubreddit());
 
-        CharSequence relativeTime = DateUtils.getRelativeDateTimeString(getContext(), ,DateUtils.SECOND_IN_MILLIS,
-                DateUtils.WEEK_IN_MILLIS,0);
+        CharSequence relativeTime = DateUtils.getRelativeDateTimeString(getContext(),
+                pm.getCreateTime(),DateUtils.SECOND_IN_MILLIS, DateUtils.WEEK_IN_MILLIS,0);
 
         viewHolder.postDate.setText(relativeTime);
 
@@ -106,8 +107,17 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
 
         viewHolder.postThumbnail.setImageDrawable(null);
-        imageDownloader imDw = new imageDownloader(this.bitmapLruCache, viewHolder.postThumbnail, viewHolder.postProgressBar);
-        imDw.execute(pm.getThumbnailUrl());
+
+        Bitmap thumbnail = pm.getThumbnailBitmap();
+        if (thumbnail == null) {
+            imageDownloader imDw = new imageDownloader(bitmapLruCache, viewHolder.postThumbnail,
+                    viewHolder.postProgressBar, this.getContext());
+            imDw.execute(pm.getThumbnailUrl());
+        } else {
+            viewHolder.postProgressBar.setVisibility(View.INVISIBLE);
+            viewHolder.postThumbnail.setImageBitmap(thumbnail);
+        }
+
 
         return convertView;
     }
@@ -120,13 +130,15 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     private class imageDownloader extends AsyncTask<String, Void, Bitmap> {
         private ImageView imageView;
         private ProgressBar progressBar;
-        private LruCache<URL, Bitmap> bitmapLruCache;
+        private LruCache<String, Bitmap> bitmapLruCache;
+        private Context mCtx;
 
-        imageDownloader(LruCache<URL, Bitmap> bitmapCache, ImageView imageView, ProgressBar pb) {
+        imageDownloader(LruCache<String, Bitmap> bitmapCache, ImageView imageView, ProgressBar pb, Context context) {
             super();
             this.bitmapLruCache = bitmapCache;
             this.imageView = imageView;
             this.progressBar = pb;
+            this.mCtx = context;
         }
 
         @Override
@@ -137,23 +149,29 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            URL url;
-            Bitmap bitmap = null;
-            HttpURLConnection connection;
-            InputStream is;
+            Bitmap bitmap;
+            RedditDBHelper DBHelper = new RedditDBHelper(mCtx, 1);
+            String strURl = params[0];
 
-            try {
-                url = new URL(params[0]);
-                bitmap = bitmapLruCache.get(url);
-                if (bitmap == null) {
-                    connection = (HttpURLConnection) url.openConnection();
-                    is = connection.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is, null, null);
-                    bitmapLruCache.put(url, bitmap);
-                }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
+            if (strURl.equals("self") | strURl.equals("default") | strURl.equals("image") |
+                    strURl.equals("nsfw")) {
+                bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher);
+            } else {
+                bitmap = bitmapLruCache.get(strURl);
             }
+            if (bitmap == null) {
+                try {
+                    URL url = new URL(strURl);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    InputStream is = connection.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is, null, null);
+                    DBHelper.saveImage(strURl, bitmap);
+                    bitmapLruCache.put(strURl, bitmap);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            DBHelper.close();
             return bitmap;
         }
 

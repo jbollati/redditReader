@@ -16,7 +16,7 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class RedditDBHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "post_db";
+    private static final String DATABASE_NAME = "post_db.db";
     private static final String POST_TABLE = "post";
     private static final String POST_AUTHOR = "author";
     private static final String POST_TITLE = "title";
@@ -26,14 +26,6 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     private static final String POST_THUMBNAIL_ARRAY = "thumbnail_array";
     private static final String POST_SUBREDDIT = "subreddit";
 
-    /*private String mAuthor;
-    private String mTitle;
-    private long mNoComments;
-    private Date mCreateTime;
-    private String mThumbnailUrl;
-    private Bitmap mThumbnailBitmap;
-    private String mSubreddit;
-*/
 
     public RedditDBHelper(Context context, int version) {
         super(context, DATABASE_NAME, null, version);
@@ -41,7 +33,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createSentence = "create_table"
+        String createSentence = "create table "
                 + POST_TABLE + "(_id integer primary key autoincrement, "
                 + POST_AUTHOR + " text,"
                 + POST_TITLE + " text not null, "
@@ -78,7 +70,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
 
             db.insert(POST_TABLE, null, values);
         }
-
+        db.setTransactionSuccessful();
         db.endTransaction();
     }
 
@@ -99,8 +91,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 post.setThumbnailUrl(cursor.getString(cursor.getColumnIndex(POST_THUMBNAIL_URL)));
                 post.setSubreddit(cursor.getString(cursor.getColumnIndex(POST_SUBREDDIT)));
                 if (!cursor.isNull(cursor.getColumnIndex(POST_THUMBNAIL_ARRAY))) {
-                    byte[] image = cursor.getBlob(cursor.getColumnIndex(POST_THUMBNAIL_ARRAY));
-                    Bitmap thumbnail = BitmapFactory.decodeByteArray(image, 0, image.length);
+                    Bitmap thumbnail = getImage(cursor.getBlob(cursor.getColumnIndex(POST_THUMBNAIL_ARRAY)));
                     post.setThumbnailBitmap(thumbnail);
                 }
                 posts.add(post);
@@ -108,5 +99,26 @@ public class RedditDBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return posts;
+    }
+
+    public void saveImage(String url, Bitmap image) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(POST_THUMBNAIL_ARRAY, getBytes(image));
+
+        db.update(POST_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
+    }
+
+
+    private static byte[] getBytes(Bitmap bitmap)
+    {
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,0, stream);
+        return stream.toByteArray();
+    }
+
+    private static Bitmap getImage(byte[] image)
+    {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }
