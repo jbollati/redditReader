@@ -74,10 +74,13 @@ public class RedditDBHelper extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
-    public List<PostModel> getPosts() {
+    public List<PostModel> getPosts(int limit, int offset) {
         List<PostModel> posts = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + POST_TABLE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + POST_TABLE
+                + " LIMIT " + Integer.toString(limit)
+                + " OFFSET " + Integer.toString(offset)
+                , null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -108,7 +111,6 @@ public class RedditDBHelper extends SQLiteOpenHelper {
 
         db.update(POST_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
     }
-
 
     private static byte[] getBytes(Bitmap bitmap)
     {

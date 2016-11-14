@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.R;
@@ -50,9 +52,15 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
     }
 
-    public PostAdapter(Context context, int textViewResourceId, List<PostModel> postLst) {
+    public PostAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        this.postLst = postLst;
+        this.postLst = new ArrayList<>();
+    }
+
+    @Override
+    public void addAll(Collection<? extends PostModel> collection) {
+        this.postLst.addAll(collection);
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -153,11 +161,22 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             RedditDBHelper DBHelper = new RedditDBHelper(mCtx, 1);
             String strURl = params[0];
 
-            if (strURl.equals("self") | strURl.equals("default") | strURl.equals("image") |
-                    strURl.equals("nsfw")) {
-                bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher);
-            } else {
-                bitmap = bitmapLruCache.get(strURl);
+            switch (strURl) {
+                case "self":
+                    bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.post_self);
+                    break;
+                case "default":
+                    bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.post_default);
+                    break;
+                case "image":
+                    bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.post_image);
+                    break;
+                case "nsfw":
+                    bitmap = BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.post_nsfw);
+                    break;
+                default:
+                    bitmap = bitmapLruCache.get(strURl);
+                    break;
             }
             if (bitmap == null) {
                 try {

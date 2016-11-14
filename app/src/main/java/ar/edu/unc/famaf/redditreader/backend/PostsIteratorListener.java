@@ -5,6 +5,6 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
-public interface TaskListener {
-    void nextPosts(List<PostModel> list);
+public interface PostsIteratorListener {
+    void nextPosts(List<PostModel> posts);
 }

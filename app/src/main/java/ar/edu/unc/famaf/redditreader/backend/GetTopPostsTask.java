@@ -14,10 +14,10 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
 
 
 public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
-    private TaskListener mListener;
+    private PostsIteratorListener mListener;
     private Context mCtx;
 
-    public GetTopPostsTask(TaskListener listener, Context context) {
+    public GetTopPostsTask(PostsIteratorListener listener, Context context) {
         super();
         this.mListener = listener;
         this.mCtx = context;
@@ -40,9 +40,6 @@ public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            listing = new Listing();
-            listing.setChildren(DBHelper.getPosts());
         }
 
         DBHelper.close();
@@ -52,7 +49,6 @@ public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
     @Override
     protected void onPostExecute(Listing listing) {
         super.onPostExecute(listing);
-        mListener.nextPosts(listing.getChildren());
     }
 
     private boolean isOnline() {
