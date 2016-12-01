@@ -104,8 +104,10 @@ public class Parser {
         String title = null;
         int num_comments = 0;
         long create = 0;
+        String preview = null;
         String thumbnail = null;
         String subreddit = null;
+        String permalink = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -133,19 +135,61 @@ public class Parser {
                 case "subreddit":
                     subreddit = "/r/" + reader.nextString();
                     break;
+                case "preview":
+                    preview = readPreview(reader);
+                    break;
+                case "permalink":
+                    permalink = reader.nextString();
+                    break;
                 default:
                     reader.skipValue();
             }
         }
         reader.endObject();
+
         post.setSubreddit(subreddit);
         post.setTitle(title);
         post.setAuthor(author);
         post.setCreateTime(create);
         post.setNoComments(num_comments);
         post.setThumbnailUrl(thumbnail);
+        post.setPermalink(permalink);
+        post.setPreview(preview);
 
         return post;
+    }
+
+    private String readPreview(JsonReader reader) throws IOException {
+        String string = null;
+        reader.beginObject();
+        if (reader.nextName().equals("images")) {
+            reader.beginArray();
+            while (reader.hasNext()) {
+                reader.beginObject();
+                while (reader.hasNext()) {
+                    if (reader.nextName().equals("source")) {
+                        reader.beginObject();
+                        while (reader.hasNext()) {
+                            if (reader.nextName().equals("url")) {
+                                string = reader.nextString();
+                            } else {
+                                reader.skipValue();
+                            }
+                        }
+                        reader.endObject();
+                    } else {
+                        reader.skipValue();
+                    }
+                }
+                reader.endObject();
+            }
+            reader.endArray();
+        } else {
+            reader.skipValue();
+        }
+        reader.endObject();
+
+        return string;
     }
 }
 

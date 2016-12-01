@@ -25,6 +25,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     private static final String POST_THUMBNAIL_URL = "thumbnail_url";
     private static final String POST_THUMBNAIL_ARRAY = "thumbnail_array";
     private static final String POST_SUBREDDIT = "subreddit";
+    private static final String POST_PREVIEW = "preview";
+    private static final String POST_PERMALINK = "permalink";
 
 
     public RedditDBHelper(Context context, int version) {
@@ -41,6 +43,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 + POST_CREATE_TIME + " long not null, "
                 + POST_THUMBNAIL_URL + " text, "
                 + POST_THUMBNAIL_ARRAY + " blob, "
+                + POST_PREVIEW + " text, "
+                + POST_PERMALINK + " text, "
                 + POST_SUBREDDIT + " text not null);";
 
         db.execSQL(createSentence);
@@ -67,6 +71,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             values.put(POST_CREATE_TIME, post.getCreateTime());
             values.put(POST_THUMBNAIL_URL, post.getThumbnailUrl());
             values.put(POST_SUBREDDIT, post.getSubreddit());
+            values.put(POST_PREVIEW, post.getPreview());
+            values.put(POST_PERMALINK, post.getPermalink());
 
             db.insert(POST_TABLE, null, values);
         }
@@ -93,6 +99,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 post.setCreateTime(cursor.getLong(cursor.getColumnIndex(POST_CREATE_TIME)));
                 post.setThumbnailUrl(cursor.getString(cursor.getColumnIndex(POST_THUMBNAIL_URL)));
                 post.setSubreddit(cursor.getString(cursor.getColumnIndex(POST_SUBREDDIT)));
+                post.setPermalink(cursor.getString(cursor.getColumnIndex(POST_PERMALINK)));
+                post.setPreview(cursor.getString(cursor.getColumnIndex(POST_PREVIEW)));
                 if (!cursor.isNull(cursor.getColumnIndex(POST_THUMBNAIL_ARRAY))) {
                     Bitmap thumbnail = getImage(cursor.getBlob(cursor.getColumnIndex(POST_THUMBNAIL_ARRAY)));
                     post.setThumbnailBitmap(thumbnail);

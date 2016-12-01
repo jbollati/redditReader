@@ -18,6 +18,9 @@
     <string name="internet_required">Usetd no posee conexión a internet</string>
 
 
-    <string name="title_activity_news">"Lector de Reddit"
-    </string>
+    <string name="title_activity_news">"Lector de Reddit"</string>
+    <string name="title_activity_news_detail">"Lector de Reddit"</string>
+
+    <string name="detail_upload">Creado por %1$s</string>
+
 </resources>

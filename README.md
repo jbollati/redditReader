@@ -232,3 +232,49 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 Fuente:  [guides.codepath.com](https://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView)
 
  * Nuestra `ListView` debe reimplementar [onScrollListener](https://developer.android.com/reference/android/widget/AbsListView.OnScrollListener.html) tal como indica la fuente y `NewsActivityFragment` implementar `PostsIteratorListener`. Una vez que haya nuevos resultados se debe invocar al método `notifyDataSetChanged()` de nuestro propio adapter. 
+
+## Step 8 - Post Detail Assignment
+
+### Objetivos
+
+* Al seleccionar una celda de la lista, mostrar el detalle del post.
+
+### Pre-Requsitos
+
+* Haber completado la actividad de [endlessScrolling_assignment](https://github.com/mercadodiego/RedditReader/tree/endlessScrolling_assignment) 
+
+### Enunciado 
+
+#### Primera parte
+
+1-) Para "escuchar" por los eventos de selección de celda debe reimplementar el método `ListView.setOnItemClickListener(OnItemClickListener listener)`
+
+2-) Emplear la siguiente interfaz para la comunicación entre `NewsActivity` y `NewsActivityFragment` 
+  
+```Java
+public interface OnPostItemSelectedListener{
+    void onPostItemPicked(PostModel post);
+}
+```
+
+3-) La actividad de detalle debe llevar de nombre `ar.edu.unc.famaf.redditreader.ui.NewsDetailActivity`, con su correspondiente fragmento `ar.edu.unc.famaf.redditreader.ui.NewsDetailActivityFragment`
+
+4-) Mostrar el título del post en un `TextView`
+
+
+#### Segunda parte
+
+1-) Mostrar el siguiente detalle: 
+* Subrredit al que pertenece
+* Fecha
+* Titulo 
+* Usuario
+* Preview (si está presente)
+* Link a sitio web (si corresponde)
+
+2-) Al seleccionar link el mismo debe abrir en una nueva actividad con una [WebView](https://developer.android.com/reference/android/webkit/WebView.html) que despliegue el contenido web, sin abandonar la aplicación 
+
+### Tip
+
+* Para poder emplear PostModel como parte del Intent, dicho objeto debe implementar la interfaz `Serializable` y emplear los métodos `putExtra(String name, Serializable value)` y `Serializable getSerializableExtra(String name)` de la clase `android.content.Intent`
+

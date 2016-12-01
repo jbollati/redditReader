@@ -14,12 +14,10 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
 
 
 public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
-    private PostsIteratorListener mListener;
     private Context mCtx;
 
-    public GetTopPostsTask(PostsIteratorListener listener, Context context) {
+    public GetTopPostsTask(Context context) {
         super();
-        this.mListener = listener;
         this.mCtx = context;
     }
 

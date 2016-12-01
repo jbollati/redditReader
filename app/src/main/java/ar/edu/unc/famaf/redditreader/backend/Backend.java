@@ -15,14 +15,14 @@ public class Backend {
     private Backend() {
     }
 
-    public static void getTopPosts(PostsIteratorListener listener, Context context) {
-        new GetTopPostsTask(listener, context).execute("https://www.reddit.com/top/.json?limit=50");
+    public static void getTopPosts(Context context) {
+        new GetTopPostsTask(context).execute("https://www.reddit.com/top/.json?limit=50");
         Backend.getInstance().fstTime = 0;
     }
 
     public boolean getNextPosts(final PostsIteratorListener listener, Context context, int count) {
         if (fstTime == 1) {
-            getTopPosts(listener, context);
+            getTopPosts(context);
         }
 
         if (count < maxPosts) {
