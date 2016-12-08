@@ -17,7 +17,9 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class RedditDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "post_db.db";
-    private static final String POST_TABLE = "post";
+    private static final String TOP_TABLE = "top_post";
+    private static final String NEW_TABLE = "new_post";
+    private static final String HOT_TABLE = "hot_post";
     private static final String POST_AUTHOR = "author";
     private static final String POST_TITLE = "title";
     private static final String POST_NO_COMMENTS = "no_comments";
@@ -36,7 +38,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createSentence = "create table "
-                + POST_TABLE + "(_id integer primary key autoincrement, "
+                + TOP_TABLE + "(_id integer primary key autoincrement, "
                 + POST_AUTHOR + " text,"
                 + POST_TITLE + " text not null, "
                 + POST_NO_COMMENTS + " integer not null, "
@@ -46,23 +48,66 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 + POST_PREVIEW + " text, "
                 + POST_PERMALINK + " text, "
                 + POST_SUBREDDIT + " text not null);";
+        db.execSQL(createSentence);
 
+        createSentence = "create table "
+                + NEW_TABLE + "(_id integer primary key autoincrement, "
+                + POST_AUTHOR + " text,"
+                + POST_TITLE + " text not null, "
+                + POST_NO_COMMENTS + " integer not null, "
+                + POST_CREATE_TIME + " long not null, "
+                + POST_THUMBNAIL_URL + " text, "
+                + POST_THUMBNAIL_ARRAY + " blob, "
+                + POST_PREVIEW + " text, "
+                + POST_PERMALINK + " text, "
+                + POST_SUBREDDIT + " text not null);";
+        db.execSQL(createSentence);
+
+        createSentence = "create table "
+                + HOT_TABLE + "(_id integer primary key autoincrement, "
+                + POST_AUTHOR + " text,"
+                + POST_TITLE + " text not null, "
+                + POST_NO_COMMENTS + " integer not null, "
+                + POST_CREATE_TIME + " long not null, "
+                + POST_THUMBNAIL_URL + " text, "
+                + POST_THUMBNAIL_ARRAY + " blob, "
+                + POST_PREVIEW + " text, "
+                + POST_PERMALINK + " text, "
+                + POST_SUBREDDIT + " text not null);";
         db.execSQL(createSentence);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXIST " + POST_TABLE);
+        db.execSQL("DROP TABLE IF EXIST " + TOP_TABLE);
+        db.execSQL("DROP TABLE IF EXIST " + NEW_TABLE);
+        db.execSQL("DROP TABLE IF EXIST " + HOT_TABLE);
         this.onCreate(db);
     }
 
-    public void savePosts(List<PostModel> posts) {
+    public void savePosts(List<PostModel> posts, int category) {
         SQLiteDatabase db = getWritableDatabase();
+        String table;
+
+        switch (category) {
+            case 0:
+                table = TOP_TABLE;
+                break;
+            case 1:
+                table = NEW_TABLE;
+                break;
+            case 2:
+                table = HOT_TABLE;
+                break;
+            default:
+                table = TOP_TABLE;
+        }
+
 
         db.beginTransaction();
 
         // Delete old posts
-        db.delete(POST_TABLE, null, null);
+        db.delete(table, null, null);
         for (PostModel post : posts) {
             ContentValues values = new ContentValues();
             values.put(POST_AUTHOR, post.getAuthor());
@@ -74,19 +119,36 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             values.put(POST_PREVIEW, post.getPreview());
             values.put(POST_PERMALINK, post.getPermalink());
 
-            db.insert(POST_TABLE, null, values);
+            db.insert(table, null, values);
         }
         db.setTransactionSuccessful();
         db.endTransaction();
     }
 
-    public List<PostModel> getPosts(int limit, int offset) {
+    public List<PostModel> getPosts(int limit, int offset, int category) {
+        String table;
+
+        switch (category) {
+            case 0:
+                table = TOP_TABLE;
+                break;
+            case 1:
+                table = NEW_TABLE;
+                break;
+            case 2:
+                table = HOT_TABLE;
+                break;
+            default:
+                table = TOP_TABLE;
+        }
+
         List<PostModel> posts = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + POST_TABLE
+        Cursor cursor = db.rawQuery("SELECT * FROM " + table
                 + " LIMIT " + Integer.toString(limit)
                 + " OFFSET " + Integer.toString(offset)
                 , null);
+
 
         if (cursor.moveToFirst()) {
             do {
@@ -117,7 +179,9 @@ public class RedditDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(POST_THUMBNAIL_ARRAY, getBytes(image));
 
-        db.update(POST_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
+        db.update(TOP_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
+        db.update(NEW_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
+        db.update(HOT_TABLE, values, POST_THUMBNAIL_URL + "=?", new String[]{url});
     }
 
     private static byte[] getBytes(Bitmap bitmap)

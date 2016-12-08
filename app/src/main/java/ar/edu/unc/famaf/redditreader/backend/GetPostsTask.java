@@ -13,12 +13,14 @@ import java.net.URL;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 
 
-public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
+public class GetPostsTask extends AsyncTask<String, Void, Listing> {
     private Context mCtx;
+    private int category;
 
-    public GetTopPostsTask(Context context) {
+    public GetPostsTask(Context context, int category) {
         super();
         this.mCtx = context;
+        this.category = category;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class GetTopPostsTask extends AsyncTask<String, Void, Listing> {
                 conn.setRequestMethod("GET");
                 InputStream jsonStream = conn.getInputStream();
                 listing = new Parser().readJsonStream(jsonStream);
-                DBHelper.savePosts(listing.getChildren());
+                DBHelper.savePosts(listing.getChildren(), category);
             } catch (IOException e) {
                 e.printStackTrace();
             }

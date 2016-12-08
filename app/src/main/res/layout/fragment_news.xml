@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news_activity_fragment_id"
     android:layout_width="match_parent"
@@ -8,9 +7,40 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
 
-
-    <ListView
+    <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/posts_lv"/>
+        android:id="@android:id/tabhost">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TabWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@android:id/tabs" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@android:id/tabcontent">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/posts_lv_top"/>
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/posts_lv_new"/>
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/posts_lv_hot"/>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 </RelativeLayout>

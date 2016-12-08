@@ -5,29 +5,36 @@ import android.content.Context;
 
 public class Backend {
     private static Backend ourInstance = new Backend();
-    private int fstTime = 1;
-    private final int maxPosts = 50;
+    private final int maxPosts;
 
     public static Backend getInstance() {
         return ourInstance;
     }
 
     private Backend() {
+        maxPosts = 50;
     }
 
-    public static void getTopPosts(Context context) {
-        new GetTopPostsTask(context).execute("https://www.reddit.com/top/.json?limit=50");
-        Backend.getInstance().fstTime = 0;
-    }
-
-    public boolean getNextPosts(final PostsIteratorListener listener, Context context, int count) {
-        if (fstTime == 1) {
-            getTopPosts(context);
+    public static void GetPosts(Context context, int category) {
+        switch (category) {
+            case 0:
+                new GetPostsTask(context, category).execute("https://www.reddit.com/top/.json?limit=50");
+                break;
+            case 1:
+                new GetPostsTask(context, category).execute("https://www.reddit.com/new/.json?limit=50");
+                break;
+            case 2:
+                new GetPostsTask(context, category).execute("https://www.reddit.com/hot/.json?limit=50");
+                break;
+            default:
+                break;
         }
+    }
 
+    public boolean getNextPosts(final PostsIteratorListener listener, Context context, int count, int category) {
         if (count < maxPosts) {
             RedditDBHelper DBHelper = new RedditDBHelper(context, 1);
-            listener.nextPosts(DBHelper.getPosts(5, count));
+            listener.nextPosts(DBHelper.getPosts(5, count, category), category);
             DBHelper.close();
             return true;
         } else {
