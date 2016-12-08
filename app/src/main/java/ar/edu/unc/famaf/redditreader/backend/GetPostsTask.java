@@ -14,13 +14,15 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
 
 
 public class GetPostsTask extends AsyncTask<String, Void, Listing> {
+    private PostsIteratorListener mListener;
     private Context mCtx;
-    private int category;
+    private int mCategory;
 
-    public GetPostsTask(Context context, int category) {
+    public GetPostsTask(PostsIteratorListener listener, Context context, int category) {
         super();
+        this.mListener = listener;
         this.mCtx = context;
-        this.category = category;
+        this.mCategory = category;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class GetPostsTask extends AsyncTask<String, Void, Listing> {
                 conn.setRequestMethod("GET");
                 InputStream jsonStream = conn.getInputStream();
                 listing = new Parser().readJsonStream(jsonStream);
-                DBHelper.savePosts(listing.getChildren(), category);
+                DBHelper.savePosts(listing.getChildren(), mCategory);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -49,6 +51,7 @@ public class GetPostsTask extends AsyncTask<String, Void, Listing> {
     @Override
     protected void onPostExecute(Listing listing) {
         super.onPostExecute(listing);
+        Backend.getInstance().getNextPosts(mListener, mCtx, 0, mCategory);
     }
 
     private boolean isOnline() {

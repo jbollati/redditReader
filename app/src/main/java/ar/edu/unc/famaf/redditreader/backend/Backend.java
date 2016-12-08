@@ -5,6 +5,7 @@ import android.content.Context;
 
 public class Backend {
     private static Backend ourInstance = new Backend();
+
     private final int maxPosts;
 
     public static Backend getInstance() {
@@ -15,16 +16,16 @@ public class Backend {
         maxPosts = 50;
     }
 
-    public static void GetPosts(Context context, int category) {
+    public static void GetPosts(final PostsIteratorListener listener, Context context, int category) {
         switch (category) {
             case 0:
-                new GetPostsTask(context, category).execute("https://www.reddit.com/top/.json?limit=50");
+                new GetPostsTask(listener, context, category).execute("https://www.reddit.com/top/.json?limit=50");
                 break;
             case 1:
-                new GetPostsTask(context, category).execute("https://www.reddit.com/new/.json?limit=50");
+                new GetPostsTask(listener, context, category).execute("https://www.reddit.com/new/.json?limit=50");
                 break;
             case 2:
-                new GetPostsTask(context, category).execute("https://www.reddit.com/hot/.json?limit=50");
+                new GetPostsTask(listener, context, category).execute("https://www.reddit.com/hot/.json?limit=50");
                 break;
             default:
                 break;

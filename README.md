@@ -278,3 +278,31 @@ public interface OnPostItemSelectedListener{
 
 * Para poder emplear PostModel como parte del Intent, dicho objeto debe implementar la interfaz `Serializable` y emplear los métodos `putExtra(String name, Serializable value)` y `Serializable getSerializableExtra(String name)` de la clase `android.content.Intent`
 
+## Step 9 - Final Assignment
+
+### Objetivos
+
+* Integrar todos los conocimientos aprehendidos durante el curso 
+* Incorporar nuevos componentes sin conocimiento previo 
+* Reutilizar código
+
+### Pre-Requsitos
+
+* Haber cumplido con el 80% de la asistencia a clases
+* Haber completado, presentado y aprobado todas las actividades previas:
+  * [Activities](https://github.com/mercadodiego/RedditReader/tree/activities_assignment)
+  * [Layouts](https://github.com/mercadodiego/RedditReader/tree/layout_assignment)
+  * [Adapters](https://github.com/mercadodiego/RedditReader/tree/adapters_assignment)
+  * [Threads](https://github.com/mercadodiego/RedditReader/tree/threads_assignment)
+  * [WebServices](https://github.com/mercadodiego/RedditReader/tree/webServices_assignment)
+  * [Persistence](https://github.com/mercadodiego/RedditReader/tree/persistence_assignment)
+  * [EndlessScrolling](https://github.com/mercadodiego/RedditReader/tree/endlessScrolling_assignment)
+  * [PostDetail](https://github.com/mercadodiego/RedditReader/tree/post_detail_assignment)
+
+### Enunciado 
+
+* Implementar **una sola** de las siguientes características:
+ 1. Desplegar los comentarios empleando un scroll infinito de a 50 noticias (no hace falta persistirlo). Considerar incorporar una sangria o algo que indique el nivel del subarbol
+ 2. Emplear un [TabHost](https://developer.android.com/reference/android/widget/TabHost.html) o [NavigationDrawer](https://developer.android.com/training/implementing-navigation/nav-drawer.html?hl=es-419) que muestre los siguientes tipos de noticias: _hot_, _new_ y _top_
+ 3. Implementar login/logout del usuario y permitir hacer un _upVote_ o _downVote_ de un post ya sea de la lista general o desde el detalle de un post
+ 

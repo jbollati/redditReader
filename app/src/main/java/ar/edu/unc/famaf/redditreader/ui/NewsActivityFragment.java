@@ -110,12 +110,10 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         });
         postLV.setAdapter(mPostAdapterHOT);
 
-        Backend.GetPosts(getContext(), 0);
-        Backend.GetPosts(getContext(), 1);
-        Backend.GetPosts(getContext(), 2);
-        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(), 0, 0);
-        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(), 0, 1);
-        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(), 0, 2);
+        Backend.GetPosts(NewsActivityFragment.this, getContext(), 0);
+        Backend.GetPosts(NewsActivityFragment.this, getContext(), 1);
+        Backend.GetPosts(NewsActivityFragment.this, getContext(), 2);
+
         return rootView;
     }
 
